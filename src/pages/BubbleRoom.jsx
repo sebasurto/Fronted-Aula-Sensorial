@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import BackToMain from '../components/BackToMain';
+import styles from '../styles/styles';
+
 function BubbleRoom({ navigation }) {
   return (
     <View>
-      <Text> Cuarto de burbujas</Text>
-      <BackToMain navigation={navigation}/>
+      <Text style={styles.title}> Cuarto de burbujas</Text>
     </View>
   );
 }

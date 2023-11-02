@@ -1,13 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import BackToMain from '../components/BackToMain';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import styles from '../styles/styles';
+
 function AudiovisualSystem({ navigation }) {
   return (
     <View>
-      <Text> Salón Audiovisual</Text>
-      <BackToMain navigation={navigation}/>
+      <Text style={styles.title}> Salón Audiovisual</Text>
     </View>
   );
 }

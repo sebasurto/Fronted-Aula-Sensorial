@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import BackToMain from '../components/BackToMain';
+import styles from '../styles/styles';
+
 function BallsPool({ navigation }) {
   return (
     <View>
-      <Text> Piscina de pelotas</Text>
-      <BackToMain navigation={navigation}/>
+      <Text style={styles.title}> Piscina de pelotas</Text>
     </View>
   );
 }
