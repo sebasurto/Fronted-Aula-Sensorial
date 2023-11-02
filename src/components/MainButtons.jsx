@@ -6,7 +6,7 @@ function MainButtons({ navigation }) {
     
     <View style={styles.container}>
       <MainButton
-        title="Sala audiovisual"
+        title="Sistema audiovisual"
         onPress={() => navigation.navigate('AudiovisualSystem')}
         color="#33FF57"
       />
