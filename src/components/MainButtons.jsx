@@ -18,10 +18,9 @@ function MainButtons({ navigation }) {
   return (
     <View style={styles.container}>
       <MainButton
-        title="Sistema audiovisual"
+        title="Sala audiovisual"
         onPress={() => navigation.navigate("AudiovisualSystem")}
-        color="#EADDFF"
-        iconName="tv-outline"
+        color="#33FF57"
       />
       <MainButton
         title="Piscina de pelotas"
