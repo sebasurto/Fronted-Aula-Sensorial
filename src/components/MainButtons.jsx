@@ -1,95 +1,74 @@
 import React from "react";
-import {
-  Button,
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-import { useFonts } from "expo-font";
+import { Text, View, StyleSheet, Pressable } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 function MainButtons({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    "Roboto-Flex": require("../../assets/fonts/Roboto_Flex/RobotoFlex.ttf"),
-  });
-
   return (
-    <View style={styles.container}>
+    <View style={styles.view}>
       <MainButton
         title="Sala audiovisual"
-        onPress={() => navigation.navigate("AudiovisualSystem")}
-        color="#33FF57"
+        onPress={() => navigation.navigate("Sala audiovisual")}
+        iconName="tv"
       />
       <MainButton
         title="Piscina de pelotas"
-        onPress={() => navigation.navigate("BallsPool")}
-        color="#EADDFF"
-        iconName="water-outline"
+        onPress={() => navigation.navigate("Piscina de pelotas")}
+        iconName="water"
       />
       <MainButton
         title="Cuarto de burbujas"
-        onPress={() => navigation.navigate("BubbleRoom")}
-        color="#EADDFF"
-        iconName="ellipse-outline"
+        onPress={() => navigation.navigate("Cuarto de burbujas")}
+        iconName="ellipse"
       />
       <MainButton
         title="Iluminación general"
-        onPress={() => navigation.navigate("CommonIlumination")}
-        color="#EADDFF"
-        iconName="sunny-outline"
+        onPress={() => navigation.navigate("Iluminación general")}
+        iconName="sunny"
       />
       <MainButton
-        title="Sistema Táctil"
-        onPress={() => navigation.navigate("TactileSystem")}
-        color="#EADDFF"
-        iconName="thumbs-up-outline"
+        title="Sistema táctil"
+        onPress={() => navigation.navigate("Sistema táctil")}
+        iconName="apps"
       />
       <MainButton
         title="Cuarto de tubos"
-        onPress={() => navigation.navigate("TubeRoom")}
-        color="#EADDFF"
-        iconName="musical-notes-outline"
+        onPress={() => navigation.navigate("Cuarto de tubos")}
+        iconName="musical-notes"
       />
     </View>
   );
 }
-const MainButton = ({ title, onPress, color, iconName }) => {
+const MainButton = ({ title, onPress, iconName }) => {
   return (
-    <Pressable
-      style={{ ...styles.button, backgroundColor: color }}
-      onPress={onPress}
-    >
-      <Icon name={iconName} size="3vh" color="#21005D" />
-      <Text style={styles.buttonText}>{title}</Text>
+    <Pressable style={styles.pressable} onPress={onPress}>
+      <Ionicons name={iconName} size={30} color="#ffffff" />
+      <Text style={styles.text}>{title}</Text>
     </Pressable>
   );
 };
+
 const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
+  view: {
+    flex: 1,
+    flexDirection: "column",
     justifyContent: "center",
+    rowGap: 10,
   },
-  button: {
-    width: "20vh",
-    height: "20vh",
-    borderRadius: "2vh",
-    padding: "3vh",
-    margin: "1vh",
-    display: "flex",
+  pressable: {
     flexDirection: "row",
-    flexWrap: "nowrap",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "2vh",
+    columnGap: 10,
+    backgroundColor: "#4c65cc",
+    borderRadius: 30,
+    alignItems: "center", // vertical
+    justifyContent: "flex-start", // horizontal
+    marginRight: 30,
+    marginLeft: 30,
+    padding: 30,
   },
-  buttonText: {
+  text: {
+    color: "#ffffff",
     fontSize: 16,
-    color: "#21005D",
-    fontFamily: "Roboto-Flex",
   },
 });
+
 export default MainButtons;
