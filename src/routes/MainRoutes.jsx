@@ -9,6 +9,9 @@ import Login from "../pages/Login";
 import MainScreen from "../pages/MainScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Pressable, StyleSheet } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 const Stack = createNativeStackNavigator();
 function MainRoutes() {
   return (
@@ -16,12 +19,33 @@ function MainRoutes() {
       <Stack.Navigator initialRouteName="Inicio de Sesión">
         <Stack.Screen name="Inicio de Sesión" component={Login} />
         <Stack.Screen name="Controlador central" component={MainScreen} />
-        <Stack.Screen name="Sala audiovisual" component={AudiovisualSystem} />
-        <Stack.Screen name="Piscina de pelotas" component={BallsPool} />
-        <Stack.Screen name="Cuarto de burbujas" component={BubbleRoom} />
+        <Stack.Screen
+          name="Sala audiovisual"
+          component={AudiovisualSystem}
+          options={{
+            headerRight: powerButton,
+          }}
+        />
+        <Stack.Screen
+          name="Piscina de pelotas"
+          component={BallsPool}
+          options={{
+            headerRight: powerButton,
+          }}
+        />
+        <Stack.Screen
+          name="Cuarto de burbujas"
+          component={BubbleRoom}
+          options={{
+            headerRight: powerButton,
+          }}
+        />
         <Stack.Screen
           name="Iluminación general"
           component={CommonIlumination}
+          options={{
+            headerRight: powerButton,
+          }}
         />
         <Stack.Screen name="Sistema táctil" component={TactileSystem} />
         <Stack.Screen name="Cuarto de tubos" component={TubeRoom} />
@@ -29,4 +53,20 @@ function MainRoutes() {
     </NavigationContainer>
   );
 }
+
+const powerButton = () => (
+  <Pressable style={styles.power} onPress={() => {}}>
+    <Ionicons name="power" size={25} color="#ffffff"></Ionicons>
+  </Pressable>
+);
+
+const styles = StyleSheet.create({
+  power: {
+    justifyContent: "center",
+    backgroundColor: "#4c65cc",
+    padding: 5,
+    borderRadius: 50,
+  },
+});
+
 export default MainRoutes;
