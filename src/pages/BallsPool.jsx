@@ -5,12 +5,20 @@ import Power_Button from "../components/Power_Button";
 import Pool_Image from "../components/Pool_Image";
 function BallsPool({ navigation }) {
   return (
-    <ScrollView>
-      {/* <Power_Button/> */}
+    <View style={styles.container}>
       <Pool_Image />
       <Pool_Buttons />
-    </ScrollView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default BallsPool;

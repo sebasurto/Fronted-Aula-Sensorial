@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   secondView: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -83,9 +82,6 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 300,
-    position: "relative",
-    alignSelf: "center",
-    marginTop: 20,
   },
 });
 
