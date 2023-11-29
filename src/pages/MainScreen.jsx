@@ -13,6 +13,7 @@ function MainScreen({ navigation }) {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
+    backgroundColor: '#ffffff'
   },
 });
 
