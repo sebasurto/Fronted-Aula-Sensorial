@@ -43,12 +43,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         //left: 48,
         position: 'relative',
-        top: 276,
         
       },
       container: {
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 100,
       },
       frame2: {
         flexDirection: 'row',
