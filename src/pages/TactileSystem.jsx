@@ -1,13 +1,13 @@
 import React from 'react';
 import { ScrollView} from 'react-native';
 import styles from '../styles/styles';
-import Tac_Sys_Buttons from '../components/Tac_Sys_Buttons'
-import VolumeSlider from '../components/VolumeSlider';
+import TacSysButtons from '../components/TactileSystem/TacSysButtons'
+import VolumeSlider from '../components/TactileSystem/VolumeSlider';
 function TactileSystem({ navigation }) {
   return (
-    <ScrollView style= {styles.main_view}>
+    <ScrollView style= {styles.mainView}>
       <VolumeSlider/>
-      <Tac_Sys_Buttons/>
+      <TacSysButtons/>
     </ScrollView>
   );
 }

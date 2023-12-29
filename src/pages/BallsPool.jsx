@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import Pool_Buttons from "../components/Pool_Buttons";
-import Pool_Image from "../components/Pool_Image";
+import Pool_Buttons from "../components/BallsPool/PoolButtons";
+import Pool_Image from "../components/BallsPool/PoolImage";
 function BallsPool({ navigation }) {
   const [backgroundColor, setBackgroundColor] = useState('#FFFFFF'); // Estado inicial de color de fondo
 

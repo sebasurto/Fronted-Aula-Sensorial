@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 10,
+    backgroundColor: '#ffffff'
   },
   horizontal_up: {
     flexDirection: "row",
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "gray",
   },
+
 });
 
 export default TubeRoom;

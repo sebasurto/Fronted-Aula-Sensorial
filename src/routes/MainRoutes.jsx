@@ -47,8 +47,18 @@ function MainRoutes() {
             headerRight: powerButton,
           }}
         />
-        <Stack.Screen name="Sistema táctil" component={TactileSystem} />
-        <Stack.Screen name="Cuarto de tubos" component={TubeRoom} />
+        <Stack.Screen 
+          name="Sistema táctil" 
+          component={TactileSystem} 
+          options={{
+            headerRight: powerButton,
+          }}/>
+        <Stack.Screen 
+          name="Cuarto de tubos" 
+          component={TubeRoom} 
+          options={{
+            headerRight: powerButton,
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,12 +1,17 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { ScrollView } from 'react-native';
+import SliderControl from '../components/TubeRoom/SliderControl';
+import TubeImage from '../components/TubeRoom/TubeImage';
 import styles from '../styles/styles';
+import TubeRoomButtons from '../components/TubeRoom/TubeRoomButtons';
 
 function BubbleRoom({ navigation }) {
   return (
-    <View>
-      <Text style={styles.title}> Cuarto de burbujas</Text>
-    </View>
+    <ScrollView style= {styles.mainView}>
+      <SliderControl/>
+      <TubeImage/>
+      <TubeRoomButtons/>
+    </ScrollView>
   );
 }
 

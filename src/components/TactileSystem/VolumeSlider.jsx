@@ -8,12 +8,12 @@ const VolumeSlider = () => {
     setVolume(value);
   };
 
-  const sliderColor = volume > 0.5 ? 'darkblue' : 'lightblue';
+  const sliderColor = volume > 0.5 ? 'blue' : 'lightblue';
 
   return (
-    <View style={styles.container}>
+    <View style={styles.sliderContainer}>
       <Slider
-        style={[styles.slider, { backgroundColor: sliderColor }]}
+        style={styles.slider}
         minimumValue={0}
         maximumValue={1}
         value={volume}
@@ -21,23 +21,37 @@ const VolumeSlider = () => {
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#000000"
       />
-      <Text style={styles.text}>Volume: {Math.round(volume * 100)}%</Text>
+      <Text style={styles.text}>Volumen: {Math.round(volume * 100)}%</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 100,
+  sliderContainer: {
+    width: 300,
+    marginTop: 30,
+    marginBottom: 30,
+    borderRadius: 20,
+    padding: 24,
+    backgroundColor: '#E6E6FA', // Color de fondo del contenedor del slider
     justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 50,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    alignItems:'center',
+    alignSelf:'center',
   },
   slider: {
-    width: 200,
-    height: 40,
+    width: '100%',
+    height: 50,
   },
   text: {
+    alignContent: 'center',
     fontSize: 20,
     color: 'black',
     marginTop: 20,
