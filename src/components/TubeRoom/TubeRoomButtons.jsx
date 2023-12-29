@@ -1,22 +1,55 @@
 import React from "react";
 import {  View, StyleSheet, Pressable } from "react-native";
 
+const COLORS = {
+  YELLOW: {
+    backgroundColor: '#ffd600',
+    borderColor: '#CEAE00',
+  },
+  GREEN: {
+    backgroundColor: "#81E533",
+    borderColor: "#74CE2E",
+  },
+  BLUE: {
+    backgroundColor: "#4988E7",
+    borderColor: "#427AD0",
+  },
+  RED: {
+    backgroundColor: "#E73C3C",
+    borderColor: "#D03636",
+  },
+  WHITE: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#E5E5E5",
+  },
+  PURPLE: {
+    backgroundColor: '#A131E5',
+    borderColor: '#8328B9',
+  },
+    
+  };
+
+const ColorButton = ({ colorStyle }) => (
+    <Pressable style={[styles.rectangle, colorStyle]}/>
+  );
+
 function TubeRoomButtons ({}) {
+  const colorKeys = Object.keys(COLORS);
     return (
-        <View style={styles.container}>
-          <View style={styles.frame}>
-            <View style={styles.frame2}>
-              <Pressable style={styles.rectangle} />
-              <Pressable style={styles.rectangle} />
-              <Pressable style={styles.rectangle} />
-            </View>
-            <View style={styles.frame2}>
-              <Pressable style={styles.rectangle2} />
-              <Pressable style={styles.rectangle2} />
-              <Pressable style={styles.rectangle2} />
-            </View>
+      <View style={styles.container}>
+        <View style={styles.frame}>
+          <View style={styles.frame2}>
+            {colorKeys.slice(0, 3).map((key) => (
+              <ColorButton key={key} colorStyle={COLORS[key]} />
+            ))}
+          </View>
+          <View style={styles.frame2}>
+            {colorKeys.slice(3, 6).map((key) => (
+              <ColorButton key={key} colorStyle={COLORS[key]} />
+            ))}
           </View>
         </View>
+      </View>
       );
     
 };
@@ -35,7 +68,7 @@ const styles = StyleSheet.create({
       container: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 50,
+        marginTop: 30,
       },
       frame2: {
         flexDirection: 'row',
@@ -47,21 +80,11 @@ const styles = StyleSheet.create({
       rectangle: {
         width: 90,
         height: 90,
-        borderRadius: 10,
-        backgroundColor: 'rgba(89, 228, 24, 0.5)', // color verde
+        borderRadius: 20,
+        borderWidth: 5,
+        borderStyle: "solid",
       },
-      rectangle2: {
-        width: 90,
-        height: 90,
-        borderRadius: 10,
-        backgroundColor: 'rgba(186, 18, 245, 0.5)', // color morado
-      },
-      rectangle3: {
-        width: 90,
-        height: 90,
-        borderRadius: 10,
-        backgroundColor: 'rgba(242, 153, 20, 0.5)', // color naranja
-      },
+
 });
 
 export default TubeRoomButtons;
