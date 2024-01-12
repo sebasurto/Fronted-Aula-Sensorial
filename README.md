@@ -21,6 +21,18 @@ npx expo install react-native-web@~0.19.6 react-dom@18.2.0 @expo/webpack-config@
 npx expo install @expo/vector-icons
 ```
 
+## Install image picker
+
+```
+npx expo install expo-image-picker
+```
+
+## Install Video dependencie
+
+```
+npx expo install expo-av
+```
+
 ## Run the project
 ```
 npx expo start

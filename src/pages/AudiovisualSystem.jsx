@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import * as ImagePicker from "expo-image-picker";
+
+const PlaceholderImage = require("../images/tv.png");
 
 function AudiovisualSystem({ navigation }) {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      alert("No seleccionaste ninguna imagen o video.");
+    }
+  };
+
   return (
     <View style={styles.firstView}>
       <Image
-        source={require("../images/tv.png")}
+        source={PlaceholderImage}
         style={styles.image}
         resizeMode="cover"
       />
@@ -38,7 +57,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   secondView: {
     flexDirection: "row",
@@ -83,6 +102,11 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 300,
+  },
+  video: {
+    alignSelf: "center",
+    width: 320,
+    height: 200,
   },
 });
 
