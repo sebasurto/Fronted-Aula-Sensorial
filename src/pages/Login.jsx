@@ -1,40 +1,80 @@
 import React from "react";
-import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
+import { View, Text, Pressable, TextInput, StyleSheet, Alert } from "react-native";
+import { apiUrl } from '../../apiUrl';
 
-function TactileSystem({ navigation }) {
+function Login({ navigation }) {
   const [userName, setUserName] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user: userName, password: password })
+      });
+
+      if (response.status === 200) {
+        // Navegar a la pantalla siguiente tras el inicio de sesión exitoso
+        navigation.navigate("Controlador central");
+      } else if (response.status === 401) {
+        Alert.alert("Error", "Credenciales inválidas");
+      } else if (response.status === 404) {
+        Alert.alert("Error", "Usuario no existe");
+      } else if (response.status === 500) {
+        Alert.alert("Error", "Error interno del servidor");
+      } else {
+        const data = await response.json();
+        Alert.alert("Error", data.message || "Error desconocido al iniciar sesión");
+      }
+    } catch (error) {
+      Alert.alert("Error", error.message || "Error al conectar con el servidor");
+    }
+  };
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
   return (
     <View style={styles.view}>
       <View style={styles.viewTextInput}>
-        <Text>Usuario</Text>
+      <Text>Usuario</Text>
         <TextInput
           style={styles.textInput}
           value={userName}
           placeholder="usuario"
-          onChange={(e) => {
-            setUserName(e.target.value);
-          }}
+          onChangeText={setUserName}
         />
         <Text>Contraseña</Text>
-        <TextInput
-          style={styles.textInput}
-          value={password}
-          placeholder="contraseña"
-          secureTextEntry={true}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.textInput}
+            value={password}
+            placeholder="contraseña"
+            secureTextEntry={!isPasswordVisible}
+            onChangeText={setPassword}
+          />
+          <Pressable onPress={togglePasswordVisibility}>
+              <Text style={styles.showHideText}>
+                {isPasswordVisible ? 'Ocultar' : 'Mostrar'}
+              </Text>
+            </Pressable>
+          </View>
       </View>
       <View style={styles.viewPressable}>
-        <Pressable>
+       <Pressable>
           <Text>Olvidaste la contraseña</Text>
         </Pressable>
         <Pressable
           style={styles.pressable}
-          onPress={() => navigation.navigate("Controlador central")}
+          onPress={() => navigation.navigate("Formulario de registro")}>
+          <Text style={styles.text}>Registrarse</Text>
+        </Pressable>
+        <Pressable
+          style={styles.pressable}
+          onPress={handleLogin}
         >
           <Text style={styles.text}>Continuar</Text>
         </Pressable>
@@ -44,6 +84,16 @@ function TactileSystem({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  passwordContainer: {
+    flexDirection: 'row',
+    //justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
+  showHideText: {
+    color: '#4c65cc',
+    paddingRight: 10,
+  },
   view: {
     flex: 1,
     flexDirection: "column",
@@ -57,7 +107,7 @@ const styles = StyleSheet.create({
     rowGap: 10,
   },
   viewPressable: {
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
   },
   textInput: {
@@ -76,6 +126,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginLeft: 30,
     padding: 20,
+    marginTop: 10,
   },
   text: {
     color: "#ffffff",
@@ -83,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TactileSystem;
+export default Login;

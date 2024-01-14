@@ -11,6 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Pressable, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import RegisterScreen from "../pages/RegisterScreen";
 
 const Stack = createNativeStackNavigator();
 function MainRoutes() {
@@ -18,6 +19,7 @@ function MainRoutes() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Inicio de Sesión">
         <Stack.Screen name="Inicio de Sesión" component={Login} />
+        <Stack.Screen name="Formulario de registro" component={RegisterScreen} />
         <Stack.Screen name="Controlador central" component={MainScreen} />
         <Stack.Screen
           name="Sala audiovisual"

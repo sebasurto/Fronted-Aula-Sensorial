@@ -1,0 +1,1 @@
+export const apiUrl = 'https://backend-aula-sensorial.onrender.com';
