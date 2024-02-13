@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ScrollView, Image, View, StyleSheet, Pressable } from "react-native";
 import SliderControl from "../components/TubeRoom/SliderControl";
 import Slider from "@react-native-community/slider";
+import { apiUrl } from "../../apiUrl";
 
 const COLORS = {
   YELLOW: {
@@ -31,6 +32,8 @@ const COLORS = {
 };
 
 function CommonIlumination({ navigation }) {
+  const identifier = "iluminaciongeneral";
+
   const [backgroundColor, setBackgroundColor] = useState("#FFFFFF");
   const [sliderValue, setSliderValue] = useState(0);
 
@@ -40,6 +43,21 @@ function CommonIlumination({ navigation }) {
 
   const onSliderValueChange = (value) => {
     setSliderValue(value);
+  };
+
+  const readInfoDevice = async () => {
+    try {
+      const response = await fetch(
+        `${apiUrl}/device/identifier/iluminaciongeneral`,
+        {
+          method: "get",
+        }
+      );
+      changeBackgroundColor(response.color);
+      setSliderValue(response.intensity);
+    } catch (error) {
+      Alert.alert("Error", error.message || "Error al conectar al servidor");
+    }
   };
 
   return (

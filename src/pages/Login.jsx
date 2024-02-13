@@ -1,6 +1,13 @@
 import React from "react";
-import { View, Text, Pressable, TextInput, StyleSheet, Alert } from "react-native";
-import { apiUrl } from '../../apiUrl';
+import {
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  StyleSheet,
+  Alert,
+} from "react-native";
+import { apiUrl } from "../../apiUrl";
 
 function Login({ navigation }) {
   const [userName, setUserName] = React.useState("");
@@ -9,12 +16,15 @@ function Login({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`${apiUrl}/auth/login`, {
-        method: 'POST',
+      const response = await fetch(`${apiUrl}/user/login`, {
+        method: "post",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user: userName, password: password })
+        body: JSON.stringify({
+          user: userName,
+          password: password,
+        }),
       });
 
       if (response.status === 200) {
@@ -28,10 +38,16 @@ function Login({ navigation }) {
         Alert.alert("Error", "Error interno del servidor");
       } else {
         const data = await response.json();
-        Alert.alert("Error", data.message || "Error desconocido al iniciar sesión");
+        Alert.alert(
+          "Error",
+          data.message || "Error desconocido al iniciar sesión"
+        );
       }
     } catch (error) {
-      Alert.alert("Error", error.message || "Error al conectar con el servidor");
+      Alert.alert(
+        "Error",
+        error.message || "Error al conectar con el servidor"
+      );
     }
   };
   const togglePasswordVisibility = () => {
@@ -40,7 +56,7 @@ function Login({ navigation }) {
   return (
     <View style={styles.view}>
       <View style={styles.viewTextInput}>
-      <Text>Usuario</Text>
+        <Text>Usuario</Text>
         <TextInput
           style={styles.textInput}
           value={userName}
@@ -57,25 +73,23 @@ function Login({ navigation }) {
             onChangeText={setPassword}
           />
           <Pressable onPress={togglePasswordVisibility}>
-              <Text style={styles.showHideText}>
-                {isPasswordVisible ? 'Ocultar' : 'Mostrar'}
-              </Text>
-            </Pressable>
-          </View>
+            <Text style={styles.showHideText}>
+              {isPasswordVisible ? "Ocultar" : "Mostrar"}
+            </Text>
+          </Pressable>
+        </View>
       </View>
       <View style={styles.viewPressable}>
-       <Pressable>
+        <Pressable>
           <Text>Olvidaste la contraseña</Text>
         </Pressable>
         <Pressable
           style={styles.pressable}
-          onPress={() => navigation.navigate("Formulario de registro")}>
+          onPress={() => navigation.navigate("Formulario de registro")}
+        >
           <Text style={styles.text}>Registrarse</Text>
         </Pressable>
-        <Pressable
-          style={styles.pressable}
-          onPress={handleLogin}
-        >
+        <Pressable style={styles.pressable} onPress={handleLogin}>
           <Text style={styles.text}>Continuar</Text>
         </Pressable>
       </View>
@@ -85,13 +99,13 @@ function Login({ navigation }) {
 
 const styles = StyleSheet.create({
   passwordContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     //justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
+    alignItems: "center",
+    width: "100%",
   },
   showHideText: {
-    color: '#4c65cc',
+    color: "#4c65cc",
     paddingRight: 10,
   },
   view: {

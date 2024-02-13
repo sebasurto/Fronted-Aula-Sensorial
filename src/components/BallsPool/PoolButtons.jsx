@@ -1,5 +1,13 @@
 import React from "react";
-import { Text, View, StyleSheet, Pressable, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  FlatList,
+  Alert,
+} from "react-native";
+import { apiUrl } from "../../../apiUrl";
 
 const COLORS = {
   BLUE: {
@@ -20,7 +28,27 @@ const COLORS = {
   },
 };
 
-function Pool_Buttons({ changeColor }) {
+const sendDeviceInfo = async (identifier, color) => {
+  try {
+    const resonse = await fetch(`${apiUrl}/device/identifier/${identifier}`, {
+      method: "patch",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        song: "None",
+        volumeLevel: 0,
+        color: color,
+        intensity: 0,
+        video: "None",
+      }),
+    });
+  } catch (error) {
+    Alert.alert("Error", error.message || "Error al conectar al servidor");
+  }
+};
+
+function Pool_Buttons({ changeColor, identifier }) {
   const handleButtonClick = (color) => {
     changeColor(color); // Llama a la función para cambiar el color de fondo en BallsPool
   };
@@ -30,10 +58,15 @@ function Pool_Buttons({ changeColor }) {
         style={[
           styles.circle,
           styles.centerButton,
-          { backgroundColor: COLORS.BLUE.backgroundColor, 
-            borderColor: COLORS.BLUE.borderColor },
+          {
+            backgroundColor: COLORS.BLUE.backgroundColor,
+            borderColor: COLORS.BLUE.borderColor,
+          },
         ]}
-        onPress={() => handleButtonClick(COLORS.BLUE.backgroundColor)}
+        onPress={() => {
+          sendDeviceInfo(identifier, COLORS.BLUE.backgroundColor);
+          handleButtonClick(COLORS.BLUE.backgroundColor);
+        }}
       />
       <Pressable
         style={[
@@ -43,24 +76,37 @@ function Pool_Buttons({ changeColor }) {
             borderColor: COLORS.RED.borderColor,
           },
         ]}
-        onPress={() => handleButtonClick(COLORS.RED.backgroundColor)}
+        onPress={() => {
+          sendDeviceInfo(identifier, COLORS.RED.backgroundColor);
+          handleButtonClick(COLORS.RED.backgroundColor);
+        }}
       />
       <Pressable
         style={[
           styles.circle,
-          { backgroundColor: COLORS.GREEN.backgroundColor,
-             borderColor: COLORS.GREEN.borderColor },
+          {
+            backgroundColor: COLORS.GREEN.backgroundColor,
+            borderColor: COLORS.GREEN.borderColor,
+          },
         ]}
-        onPress={() => handleButtonClick(COLORS.GREEN.backgroundColor)}
+        onPress={() => {
+          sendDeviceInfo(identifier, COLORS.GREEN.backgroundColor);
+          handleButtonClick(COLORS.GREEN.backgroundColor);
+        }}
       />
       <Pressable
         style={[
           styles.circle,
           styles.centerButton,
-          { backgroundColor: COLORS.WHITE.backgroundColor,
-             borderColor:COLORS.WHITE.borderColor},
+          {
+            backgroundColor: COLORS.WHITE.backgroundColor,
+            borderColor: COLORS.WHITE.borderColor,
+          },
         ]}
-        onPress={() => handleButtonClick(COLORS.WHITE.backgroundColor)}
+        onPress={() => {
+          sendDeviceInfo(identifier, COLORS.WHITE.backgroundColor);
+          handleButtonClick(COLORS.WHITE.backgroundColor);
+        }}
       />
     </View>
   );
