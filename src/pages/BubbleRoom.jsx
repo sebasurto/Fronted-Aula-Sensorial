@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { ScrollView, Image, View, StyleSheet, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  ScrollView,
+  Image,
+  View,
+  StyleSheet,
+  Pressable,
+  Alert,
+} from "react-native";
 import SliderControl from "../components/TubeRoom/SliderControl";
 import Slider from "@react-native-community/slider";
 import { apiUrl } from "../../apiUrl";
@@ -32,26 +39,68 @@ const COLORS = {
 };
 
 function BubbleRoom({ navigation }) {
+  const identifier = "cuartodeburbujas";
+
   const [backgroundColor, setBackgroundColor] = useState("#FFFFFF");
-  const [sliderValue, setSliderValue] = useState(0);
+  const [sliderValue, setSliderValue] = useState(0.0);
 
-  const changeBackgroundColor = (color) => {
-    setBackgroundColor(color);
-  };
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-  const onSliderValueChange = (value) => {
-    setSliderValue(value);
-  };
+    fetch(`${apiUrl}/device/identifier/${identifier}`, { signal })
+      .then((res) => res.json())
+      .then((data) => {
+        setBackgroundColor(data.details.color);
+        setSliderValue(data.details.intensity);
+      })
+      .catch((error) => {
+        Alert.alert("Error", error.message || "Error al conectar al servidor");
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  async function sendDeviceInfo(colorSelected, sliderSelected) {
+    fetch(`${apiUrl}/device/identifier/${identifier}/details`, {
+      method: "patch",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        song: "None",
+        volumeLevel: 0,
+        color: colorSelected,
+        intensity: sliderSelected,
+        video: "None",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setBackgroundColor((prev) => colorSelected);
+        setSliderValue((prev) => sliderSelected);
+      })
+      .catch((error) => {
+        Alert.alert("Error", error.message || "Error al conectar al servidor");
+      });
+  }
 
   return (
     <ScrollView style={[styles.mainView, { backgroundColor }]}>
       <View style={styles.sliderContainer}>
         <Slider
           style={styles.slider}
-          onValueChange={onSliderValueChange}
+          onValueChange={(value) => {
+            sendDeviceInfo(backgroundColor, value);
+          }}
+          minimumValue={0}
+          maximumValue={100}
           minimumTrackTintColor="#4988E7"
           maximumTrackTintColor="#FFFFFF"
           thumbTintColor="#4988E7"
+          value={sliderValue}
         />
       </View>
       <View>
@@ -73,7 +122,7 @@ function BubbleRoom({ navigation }) {
                 },
               ]}
               onPress={() =>
-                changeBackgroundColor(COLORS.YELLOW.backgroundColor)
+                sendDeviceInfo(COLORS.YELLOW.backgroundColor, sliderValue)
               }
             />
             <Pressable
@@ -85,7 +134,7 @@ function BubbleRoom({ navigation }) {
                 },
               ]}
               onPress={() =>
-                changeBackgroundColor(COLORS.GREEN.backgroundColor)
+                sendDeviceInfo(COLORS.GREEN.backgroundColor, sliderValue)
               }
             />
             <Pressable
@@ -96,7 +145,9 @@ function BubbleRoom({ navigation }) {
                   borderColor: COLORS.BLUE.borderColor,
                 },
               ]}
-              onPress={() => changeBackgroundColor(COLORS.BLUE.backgroundColor)}
+              onPress={() =>
+                sendDeviceInfo(COLORS.BLUE.backgroundColor, sliderValue)
+              }
             />
           </View>
           <View style={styles.frame2}>
@@ -108,7 +159,9 @@ function BubbleRoom({ navigation }) {
                   borderColor: COLORS.RED.borderColor,
                 },
               ]}
-              onPress={() => changeBackgroundColor(COLORS.RED.backgroundColor)}
+              onPress={() =>
+                sendDeviceInfo(COLORS.RED.backgroundColor, sliderValue)
+              }
             />
             <Pressable
               style={[
@@ -119,7 +172,7 @@ function BubbleRoom({ navigation }) {
                 },
               ]}
               onPress={() =>
-                changeBackgroundColor(COLORS.WHITE.backgroundColor)
+                sendDeviceInfo(COLORS.WHITE.backgroundColor, sliderValue)
               }
             />
             <Pressable
@@ -131,7 +184,7 @@ function BubbleRoom({ navigation }) {
                 },
               ]}
               onPress={() =>
-                changeBackgroundColor(COLORS.PURPLE.backgroundColor)
+                sendDeviceInfo(COLORS.PURPLE.backgroundColor, sliderValue)
               }
             />
           </View>
