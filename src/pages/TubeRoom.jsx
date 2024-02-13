@@ -1,7 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { Audio } from "expo-av";
 
 function TubeRoom({ navigation }) {
+  const [mode, setMode] = useState("bateria");
+
+  const [bateria1, setBateria1] = useState();
+  const [bateria2, setBateria2] = useState();
+  const [bateria3, setBateria3] = useState();
+
+  const [piano1, setPiano1] = useState();
+  const [piano2, setPiano2] = useState();
+  const [piano3, setPiano3] = useState();
+
+  async function playTube1() {
+    if (mode == "bateria") {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/sounds/cuartodetubos/bateria1.wav")
+      );
+      setBateria1(sound);
+      await sound.playAsync();
+    } else if (mode == "piano") {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/sounds/cuartodetubos/piano1.mp3")
+      );
+      setPiano1(sound);
+      await sound.playAsync();
+    }
+  }
+
+  async function playTube2() {
+    if (mode == "bateria") {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/sounds/cuartodetubos/bateria2.wav")
+      );
+      setBateria2(sound);
+      await sound.playAsync();
+    } else if (mode == "piano") {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/sounds/cuartodetubos/piano2.mp3")
+      );
+      setPiano2(sound);
+      await sound.playAsync();
+    }
+  }
+
+  async function playTube3() {
+    if (mode == "bateria") {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/sounds/cuartodetubos/bateria3.wav")
+      );
+      setBateria3(sound);
+      await sound.playAsync();
+    } else if (mode == "piano") {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/sounds/cuartodetubos/piano3.mp3")
+      );
+      setPiano3(sound);
+      await sound.playAsync();
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.horizontal_up}>
@@ -22,14 +81,33 @@ function TubeRoom({ navigation }) {
         />
       </View>
       <View style={styles.rectangle}>
-        <Pressable style={styles.button}></Pressable>
-        <Pressable style={styles.button}></Pressable>
-        <Pressable style={styles.button}></Pressable>
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            setMode("bateria");
+          }}
+        />
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            setMode("piano");
+          }}
+        />
+        <Pressable style={styles.button} />
       </View>
       <View style={styles.horizontal_down}>
-        <View style={{ ...styles.tube, backgroundColor: "#81E533" }}></View>
-        <View style={{ ...styles.tube, backgroundColor: "#FFD600" }}></View>
-        <View style={{ ...styles.tube, backgroundColor: "#4988E7" }}></View>
+        <Pressable
+          style={{ ...styles.tube, backgroundColor: "#81E533" }}
+          onPress={playTube1}
+        />
+        <Pressable
+          style={{ ...styles.tube, backgroundColor: "#FFD600" }}
+          onPress={playTube2}
+        />
+        <Pressable
+          style={{ ...styles.tube, backgroundColor: "#4988E7" }}
+          onPress={playTube3}
+        />
       </View>
     </View>
   );
@@ -42,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 10,
-    backgroundColor: '#ffffff'
+    backgroundColor: "#ffffff",
   },
   horizontal_up: {
     flexDirection: "row",
@@ -82,7 +160,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "gray",
   },
-
 });
 
 export default TubeRoom;

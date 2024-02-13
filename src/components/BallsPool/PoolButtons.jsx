@@ -28,32 +28,9 @@ const COLORS = {
   },
 };
 
-const sendDeviceInfo = async (identifier, color) => {
-  try {
-    const resonse = await fetch(`${apiUrl}/device/identifier/${identifier}`, {
-      method: "patch",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        song: "None",
-        volumeLevel: 0,
-        color: color,
-        intensity: 0,
-        video: "None",
-      }),
-    });
-  } catch (error) {
-    Alert.alert("Error", error.message || "Error al conectar al servidor");
-  }
-};
-
 function Pool_Buttons({ changeColor, identifier }) {
-  const handleButtonClick = (color) => {
-    changeColor(color); // Llama a la función para cambiar el color de fondo en BallsPool
-  };
   return (
-    <View style={styles.container}>
+    <View style={styles.button_container}>
       <Pressable
         style={[
           styles.circle,
@@ -64,7 +41,6 @@ function Pool_Buttons({ changeColor, identifier }) {
           },
         ]}
         onPress={() => {
-          sendDeviceInfo(identifier, COLORS.BLUE.backgroundColor);
           handleButtonClick(COLORS.BLUE.backgroundColor);
         }}
       />
@@ -77,7 +53,6 @@ function Pool_Buttons({ changeColor, identifier }) {
           },
         ]}
         onPress={() => {
-          sendDeviceInfo(identifier, COLORS.RED.backgroundColor);
           handleButtonClick(COLORS.RED.backgroundColor);
         }}
       />
@@ -90,7 +65,6 @@ function Pool_Buttons({ changeColor, identifier }) {
           },
         ]}
         onPress={() => {
-          sendDeviceInfo(identifier, COLORS.GREEN.backgroundColor);
           handleButtonClick(COLORS.GREEN.backgroundColor);
         }}
       />
@@ -104,7 +78,6 @@ function Pool_Buttons({ changeColor, identifier }) {
           },
         ]}
         onPress={() => {
-          sendDeviceInfo(identifier, COLORS.WHITE.backgroundColor);
           handleButtonClick(COLORS.WHITE.backgroundColor);
         }}
       />
@@ -113,7 +86,7 @@ function Pool_Buttons({ changeColor, identifier }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  button_container: {
     width: 300,
     flexDirection: "row",
     flexWrap: "wrap",

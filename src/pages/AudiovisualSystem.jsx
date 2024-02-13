@@ -1,12 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as ImagePicker from "expo-image-picker";
+import { apiUrl } from "../../apiUrl";
 
 const PlaceholderImage = require("../images/tv.png");
 
 function AudiovisualSystem({ navigation }) {
+  const identifier = "salaaudiovisual";
+
   const [selectedImage, setSelectedImage] = useState(null);
+
+  const [volume, setVolume] = useState(0.0);
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -22,6 +27,47 @@ function AudiovisualSystem({ navigation }) {
     }
   };
 
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch(`${apiUrl}/device/identifier/${identifier}`, { signal })
+      .then((res) => res.json())
+      .then((data) => {
+        setVolume(data.details.volumeLevel);
+      })
+      .catch((error) => {
+        Alert.alert("Error", error.message || "Error al conectar al servidor");
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  async function sendDeviceInfo(newVolume) {
+    fetch(`${apiUrl}/device/identifier/${identifier}/details`, {
+      method: "patch",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        song: "None",
+        volumeLevel: newVolume,
+        color: "None",
+        intensity: 0,
+        video: "None",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setVolume((prev) => newVolume);
+      })
+      .catch((error) => {
+        Alert.alert("Error", error.message || "Error al conectar al servidor");
+      });
+  }
+
   return (
     <View style={styles.firstView}>
       <Image
@@ -31,15 +77,30 @@ function AudiovisualSystem({ navigation }) {
       />
       <View style={styles.secondView}>
         <View style={styles.volumeView}>
-          <Pressable style={styles.volumeUp}>
+          <Pressable
+            style={styles.volumeUp}
+            onPress={() => {
+              sendDeviceInfo(volume + 10);
+            }}
+          >
             <Ionicons name="add" size={30} color="#ffffff"></Ionicons>
           </Pressable>
-          <Pressable style={styles.volumeDown}>
+          <Pressable
+            style={styles.volumeDown}
+            onPress={() => {
+              sendDeviceInfo(volume - 10);
+            }}
+          >
             <Ionicons name="remove" size={30} color="#ffffff"></Ionicons>
           </Pressable>
         </View>
         <View style={styles.buttonsView}>
-          <Pressable style={styles.volumeMute}>
+          <Pressable
+            style={styles.volumeMute}
+            onPress={() => {
+              sendDeviceInfo(0);
+            }}
+          >
             <Ionicons name="volume-mute" size={30} color="#ffffff"></Ionicons>
           </Pressable>
           <Pressable style={styles.uploadFile}>

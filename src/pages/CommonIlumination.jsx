@@ -7,7 +7,6 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-import SliderControl from "../components/TubeRoom/SliderControl";
 import Slider from "@react-native-community/slider";
 import { apiUrl } from "../../apiUrl";
 
