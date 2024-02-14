@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { View, Text, Pressable, StyleSheet, Image, Alert } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 import { apiUrl } from "../../apiUrl";
+
+import { Video, ResizeMode } from "expo-av";
 
 const PlaceholderImage = require("../images/tv.png");
 
 function AudiovisualSystem({ navigation }) {
   const identifier = "salaaudiovisual";
-
-  const [selectedImage, setSelectedImage] = useState(null);
-
   const [volume, setVolume] = useState(0.0);
 
-  const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      quality: 1,
-    });
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
 
-    if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
-    } else {
-      alert("No seleccionaste ninguna imagen o video.");
-    }
-  };
+  const [fileUri, setFileUri] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -68,13 +58,70 @@ function AudiovisualSystem({ navigation }) {
       });
   }
 
+  async function uploadVideo() {
+    try {
+      const docRes = await DocumentPicker.getDocumentAsync({
+        type: "video/*",
+      });
+
+      const formData = new FormData();
+      const file = docRes.assets[0];
+
+      setFileUri((prev) => file.uri);
+
+      const videoFile = {
+        name: file.name.split(".")[0],
+        uri: file.uri,
+        type: file.mimeType,
+        size: file.size,
+      };
+
+      formData.append("file", videoFile);
+
+      fetch(`${apiUrl}/file/uploadFile`, {
+        method: "post",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          Alert.alert(
+            "Error",
+            error.message || "Error al conectar al servidor"
+          );
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <View style={styles.firstView}>
-      <Image
-        source={PlaceholderImage}
-        style={styles.image}
-        resizeMode="cover"
-      />
+      {fileUri == "" && (
+        <Image
+          source={PlaceholderImage}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      )}
+      {fileUri != "" && (
+        <Video
+          ref={video}
+          style={styles.video}
+          source={{
+            uri: fileUri,
+          }}
+          useNativeControls
+          resizeMode={ResizeMode.CONTAIN}
+          isLooping
+          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+        />
+      )}
       <View style={styles.secondView}>
         <View style={styles.volumeView}>
           <Pressable
@@ -103,7 +150,7 @@ function AudiovisualSystem({ navigation }) {
           >
             <Ionicons name="volume-mute" size={30} color="#ffffff"></Ionicons>
           </Pressable>
-          <Pressable style={styles.uploadFile}>
+          <Pressable style={styles.uploadFile} onPress={uploadVideo}>
             <Ionicons name="arrow-up" size={30} color="#ffffff"></Ionicons>
           </Pressable>
         </View>
