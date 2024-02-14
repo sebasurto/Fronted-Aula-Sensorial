@@ -22,7 +22,7 @@ function TubeRoom({ navigation }) {
       await sound.playAsync();
     } else if (mode == "piano") {
       const { sound } = await Audio.Sound.createAsync(
-        require("../../assets/sounds/cuartodetubos/piano1.mp3")
+        require("../../assets/sounds/cuartodetubos/piano1.wav")
       );
       setPiano1(sound);
       await sound.playAsync();
@@ -38,7 +38,7 @@ function TubeRoom({ navigation }) {
       await sound.playAsync();
     } else if (mode == "piano") {
       const { sound } = await Audio.Sound.createAsync(
-        require("../../assets/sounds/cuartodetubos/piano2.mp3")
+        require("../../assets/sounds/cuartodetubos/piano2.wav")
       );
       setPiano2(sound);
       await sound.playAsync();
@@ -54,7 +54,7 @@ function TubeRoom({ navigation }) {
       await sound.playAsync();
     } else if (mode == "piano") {
       const { sound } = await Audio.Sound.createAsync(
-        require("../../assets/sounds/cuartodetubos/piano3.mp3")
+        require("../../assets/sounds/cuartodetubos/piano3.wav")
       );
       setPiano3(sound);
       await sound.playAsync();
